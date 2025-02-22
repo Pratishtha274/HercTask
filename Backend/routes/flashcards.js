@@ -1,40 +1,4 @@
-// const express = require("express");
-// const { addFlashcard, getFlashcards, updateFlashcard, deleteFlashcard } = require("../controllers/FlashcardController");
-// const authMiddleware = require("../middleware/authMiddleware");
 
-// const router = express.Router();
-
-// // Protect all routes with authentication middleware
-// router.use(authMiddleware);
-
-// // Flashcard routes
-// router.post("/", addFlashcard);
-// router.get("/", getFlashcards);
-// router.put("/:id", updateFlashcard);
-// router.delete("/:id", deleteFlashcard);
-
-// module.exports = router;
-// const express = require("express");
-// const {
-//   addFlashcard,
-//   getFlashcards,
-//   updateFlashcard,
-//   deleteFlashcard,
-// } = require("../controllers/FlashcardController");
-// const authMiddleware = require("../middleware/authMiddleware");
-
-// const router = express.Router();
-
-// // ✅ Protect all routes with authentication middleware
-// router.use(authMiddleware);
-
-// // ✅ Flashcard Routes
-// router.post("/", addFlashcard); // Add a new flashcard
-// router.get("/", getFlashcards); // Get all flashcards
-// router.put("/:id", updateFlashcard); // Update a flashcard by ID
-// router.delete("/:id", deleteFlashcard); // Delete a flashcard by ID
-
-// module.exports = router;
 const express = require("express");
 const {
   addFlashcard,
