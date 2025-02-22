@@ -372,6 +372,100 @@
 // };
 
 // export default FlashcardItem;
+// import React, { useState } from "react";
+// import axios from "axios";
+
+// const BASE_URL = "http://localhost:5832";
+
+// const FlashcardItem = ({ flashcard, onDelete }) => {
+//     const [showAnswer, setShowAnswer] = useState(false);
+//     const [userAnswer, setUserAnswer] = useState("");
+//     const [isCorrect, setIsCorrect] = useState(null);
+//     const [deleting, setDeleting] = useState(false);
+
+//     const handleDelete = async () => {
+//         const confirmDelete = window.confirm("Are you sure you want to delete this flashcard?");
+//         if (confirmDelete) {
+//             const token = localStorage.getItem("token");
+//             setDeleting(true);
+//             try {
+//                 await axios.delete(`${BASE_URL}/flashcards/${flashcard._id}`, {
+//                     headers: { Authorization: `Bearer ${token}` },
+//                 });
+//                 onDelete(flashcard._id);
+//             } catch (err) {
+//                 console.error("Failed to delete flashcard:", err);
+//             } finally {
+//                 setDeleting(false);
+//             }
+//         }
+//     };
+
+//     const handleAnswerSubmit = (e) => {
+//         e.preventDefault();
+//         if (userAnswer.trim().toLowerCase() === flashcard.answer.trim().toLowerCase()) {
+//             setIsCorrect(true);
+//         } else {
+//             setIsCorrect(false);
+//         }
+//     };
+
+//     return (
+//         <div className="flashcard-container mr-4 shrink-0 w-48 border p-4 rounded-lg shadow-md relative h-64 perspective-1000"> {/* Key classes here */}
+//             <div className={`flashcard absolute w-full h-full transition-transform duration-500 ${showAnswer ? 'rotate-y-180' : ''} preserve-3d`}>
+//                 <div className="flashcard-front absolute w-full h-full bg-white rounded-lg shadow-md p-4 backface-hidden">
+//                     <h3 className="text-lg font-semibold">{flashcard.question}</h3>
+
+//                     <form onSubmit={handleAnswerSubmit} className="mt-2">
+//                         <input
+//                             type="text"
+//                             placeholder="Your answer..."
+//                             value={userAnswer}
+//                             onChange={(e) => setUserAnswer(e.target.value)}
+//                             className="border p-2 rounded w-full mb-2"
+//                         />
+//                         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+//                             Verify Answer
+//                         </button>
+//                     </form>
+
+//                     {isCorrect !== null && (
+//                         <p className={`mt-2 ${isCorrect ? "text-green-500" : "text-red-500"}`}>
+//                             {isCorrect ? "Correct!" : "Incorrect. Try again!"}
+//                         </p>
+//                     )}
+
+//                     <button
+//                         onClick={() => setShowAnswer(!showAnswer)}
+//                         className="mt-2 px-3 py-1 bg-blue-500 text-white rounded"
+//                     >
+//                         Show Answer
+//                     </button>
+
+//                     <button
+//                         onClick={handleDelete}
+//                         disabled={deleting}
+//                         className={`mt-2 ml-2 px-3 py-1 rounded ${deleting ? "bg-gray-400 text-gray-600 cursor-not-allowed" : "bg-red-500 text-white hover:bg-red-700"}`}
+//                     >
+//                         {deleting ? "Deleting..." : "Delete"}
+//                     </button>
+//                 </div>
+
+//                 <div className="flashcard-back absolute w-full h-full bg-gray-100 rounded-lg shadow-md p-4 rotate-y-180 backface-hidden">
+//                     <p className="text-green-500">{flashcard.answer}</p>
+//                     <button
+//                         onClick={() => setShowAnswer(!showAnswer)}
+//                         className="mt-2 px-3 py-1 bg-blue-500 text-white rounded"
+//                     >
+//                         Hide Answer
+//                     </button>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default FlashcardItem;
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -411,9 +505,10 @@ const FlashcardItem = ({ flashcard, onDelete }) => {
     };
 
     return (
-        <div className="flashcard-container mr-4 shrink-0 w-48 border p-4 rounded-lg shadow-md relative h-64 perspective-1000"> {/* Key classes here */}
-            <div className={`flashcard absolute w-full h-full transition-transform duration-500 ${showAnswer ? 'rotate-y-180' : ''} preserve-3d`}>
-                <div className="flashcard-front absolute w-full h-full bg-white rounded-lg shadow-md p-4 backface-hidden">
+        <div className="flashcard-container">
+            <div className={`flashcard ${showAnswer ? "flipped" : ""}`}>
+                {/* Front Side */}
+                <div className="flashcard-front">
                     <h3 className="text-lg font-semibold">{flashcard.question}</h3>
 
                     <form onSubmit={handleAnswerSubmit} className="mt-2">
@@ -445,13 +540,16 @@ const FlashcardItem = ({ flashcard, onDelete }) => {
                     <button
                         onClick={handleDelete}
                         disabled={deleting}
-                        className={`mt-2 ml-2 px-3 py-1 rounded ${deleting ? "bg-gray-400 text-gray-600 cursor-not-allowed" : "bg-red-500 text-white hover:bg-red-700"}`}
+                        className={`mt-2 ml-2 px-3 py-1 rounded ${
+                            deleting ? "bg-gray-400 text-gray-600 cursor-not-allowed" : "bg-red-500 text-white hover:bg-red-700"
+                        }`}
                     >
                         {deleting ? "Deleting..." : "Delete"}
                     </button>
                 </div>
 
-                <div className="flashcard-back absolute w-full h-full bg-gray-100 rounded-lg shadow-md p-4 rotate-y-180 backface-hidden">
+                {/* Back Side */}
+                <div className="flashcard-back">
                     <p className="text-green-500">{flashcard.answer}</p>
                     <button
                         onClick={() => setShowAnswer(!showAnswer)}
